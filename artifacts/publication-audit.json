@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "created_at": "2026-10-23T06:24:28.145698+00:00",
+  "scope": "reviewed public tree and new-root outgoing history",
+  "conformance_source_sha256": "7174ed733edf3147c7136cee6a53ee76e9a3d4b6dbac1f472c5a928383acccc7",
+  "regression_executions": 111,
+  "gitleaks_version": "8.30.1",
+  "gitleaks_findings": 0,
+  "custom_path_and_file_findings": 0,
+  "excluded": [
+    "runtime state",
+    "local harness configuration",
+    "browser and Wine profiles",
+    "private screenshots",
+    "logs and JUnit output",
+    "downloaded dependencies",
+    "original machine-specific brief"
+  ],
+  "demo_media_reviewed": true,
+  "limitations": "Automated scanners and manual review cannot prove the absence of every possible sensitive value."
+}

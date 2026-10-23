@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><title>LAD browser fixture</title>
+<style>body{font:20px sans-serif;margin:35px;background:#eef2ff}button,input,select{font:inherit;padding:12px}#scroll{height:90px;overflow:auto;background:white}</style>
+<h1>Isolated browser fixture</h1>
+<label>Message <input id="message" aria-label="Message"></label>
+<button id="increment" onclick="document.querySelector('#count').textContent=++window.count">Increment</button>
+<p id="count">0</p><select id="choice"><option>Alpha</option><option>Beta</option></select>
+<button id="dialog" onclick="alert('Fixture only')">Open dialog</button>
+<div id="scroll"><div style="height:1500px">Scrollable fixture</div></div>
+<script>window.count=0</script>

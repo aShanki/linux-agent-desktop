@@ -1,0 +1,23 @@
+name: checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  portable-tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -e '.[test]'
+      - name: Policy and service tests without a desktop
+        run: >-
+          python -m pytest -q tests/test_live_revu.py tests/test_service.py tests/test_cursor.py
+          -k 'not test_mcp_end_to_end and not test_crash_recovery_preserves_action_status_and_kills_owned_process and not test_kwin_tracker_follows_real_window_move_and_resize and not test_overlay_keeps_one_click_through_window_while_activity_changes'
+      - name: Build package
+        run: python -m pip wheel --no-deps --wheel-dir /tmp/lad-wheel .

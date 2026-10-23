@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-10-23T05:41:56.597328+00:00",
+  "results": [
+    {
+      "app": "kate",
+      "version": "kate 25.12.3",
+      "passed": true,
+      "saved_text_exact": true,
+      "welcome_dialog_dismissed": false,
+      "screenshot_width": 1440,
+      "screenshot_height": 1080,
+      "scale": 1.5,
+      "virtual_outputs": 2,
+      "scope": "fresh profile and scratch document on private KWin; no host desktop connection"
+    },
+    {
+      "app": "libreoffice",
+      "version": "LibreOffice 26.2.6.3 620(Build:3)",
+      "passed": true,
+      "saved_text_exact": true,
+      "welcome_dialog_dismissed": true,
+      "screenshot_width": 2400,
+      "screenshot_height": 1746,
+      "scale": 1.5,
+      "virtual_outputs": 2,
+      "scope": "fresh profile and scratch document on private KWin; no host desktop connection"
+    }
+  ]
+}

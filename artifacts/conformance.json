@@ -1,0 +1,697 @@
+{
+  "source_sha256": "7174ed733edf3147c7136cee6a53ee76e9a3d4b6dbac1f472c5a928383acccc7",
+  "generated_at": "2026-10-23T06:24:09.686674+00:00",
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4",
+  "rounds": [
+    {
+      "round": 1,
+      "exit_code": 0,
+      "source_unchanged": true,
+      "tests": [
+        {
+          "name": "test_cursor_projection_tracks_move_resize_and_rejects_invalid_target",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_activity_hides_on_error_and_expired_heartbeat",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_kwin_tracker_follows_real_window_move_and_resize",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.587
+        },
+        {
+          "name": "test_overlay_keeps_one_click_through_window_while_activity_changes",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 1.184
+        },
+        {
+          "name": "test_motion_eases_and_retargeting_is_continuous",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_activity_move_and_click_are_explicit_events",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_x11_input_capture_scaling[1]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.651
+        },
+        {
+          "name": "test_x11_input_capture_scaling[1.5]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.65
+        },
+        {
+          "name": "test_x11_input_capture_scaling[2]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.705
+        },
+        {
+          "name": "test_gtk_semantic_unicode_no_focus",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.089
+        },
+        {
+          "name": "test_browser_unicode_click_scroll_dialog",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.592
+        },
+        {
+          "name": "test_policy_identity_and_no_log_payload",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.583
+        },
+        {
+          "name": "test_replay_busy_cancel_and_durable_status",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.622
+        },
+        {
+          "name": "test_timeout_has_unknown_effect_and_new_target",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.548
+        },
+        {
+          "name": "test_independent_tasks_and_drag_selection",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.418
+        },
+        {
+          "name": "test_cancel_interrupts_blocked_backend",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 2.368
+        },
+        {
+          "name": "test_public_mcp_cannot_enroll_live_window",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_live_close_only_stops_owned_helpers",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_one_live_enrollment_and_expiry",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_input_guard_revokes_live_grant",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_unconfigured_live_adapter_never_inspects_desktop",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_live_configuration_requires_explicit_paths_and_title",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_scoped_buffer_rejects_human_edit_without_overwriting",
+          "suite": "tests.test_semantic_buffer",
+          "status": "passed",
+          "seconds": 0.544
+        },
+        {
+          "name": "test_mcp_end_to_end",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 1.565
+        },
+        {
+          "name": "test_observer_auth_and_readonly",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.573
+        },
+        {
+          "name": "test_crash_recovery_preserves_action_status_and_kills_owned_process",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 1.152
+        },
+        {
+          "name": "test_interrupted_store_record",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_mcp_cancellation_reaches_daemon",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.013
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[1]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.609
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[1.5]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.757
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[2]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.785
+        },
+        {
+          "name": "test_native_wayland_dialog_and_drag",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.366
+        },
+        {
+          "name": "test_covered_gtk_semantic_input_preserves_foreground_sentinel",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.693
+        },
+        {
+          "name": "test_kwin_backend_refuses_host_bus",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 0.061
+        },
+        {
+          "name": "test_native_gtk_coordinate_input",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.578
+        },
+        {
+          "name": "test_private_wayland_input_does_not_reach_other_display",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.944
+        },
+        {
+          "name": "test_custom_painted_canvas_without_semantic_controls",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.74
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "exit_code": 0,
+      "source_unchanged": true,
+      "tests": [
+        {
+          "name": "test_cursor_projection_tracks_move_resize_and_rejects_invalid_target",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_activity_hides_on_error_and_expired_heartbeat",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_kwin_tracker_follows_real_window_move_and_resize",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.687
+        },
+        {
+          "name": "test_overlay_keeps_one_click_through_window_while_activity_changes",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 1.058
+        },
+        {
+          "name": "test_motion_eases_and_retargeting_is_continuous",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_activity_move_and_click_are_explicit_events",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_x11_input_capture_scaling[1]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.599
+        },
+        {
+          "name": "test_x11_input_capture_scaling[1.5]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.67
+        },
+        {
+          "name": "test_x11_input_capture_scaling[2]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.775
+        },
+        {
+          "name": "test_gtk_semantic_unicode_no_focus",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.084
+        },
+        {
+          "name": "test_browser_unicode_click_scroll_dialog",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.425
+        },
+        {
+          "name": "test_policy_identity_and_no_log_payload",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.596
+        },
+        {
+          "name": "test_replay_busy_cancel_and_durable_status",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.585
+        },
+        {
+          "name": "test_timeout_has_unknown_effect_and_new_target",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.514
+        },
+        {
+          "name": "test_independent_tasks_and_drag_selection",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.415
+        },
+        {
+          "name": "test_cancel_interrupts_blocked_backend",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 2.377
+        },
+        {
+          "name": "test_public_mcp_cannot_enroll_live_window",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_live_close_only_stops_owned_helpers",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_one_live_enrollment_and_expiry",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_input_guard_revokes_live_grant",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.003
+        },
+        {
+          "name": "test_unconfigured_live_adapter_never_inspects_desktop",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_live_configuration_requires_explicit_paths_and_title",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_scoped_buffer_rejects_human_edit_without_overwriting",
+          "suite": "tests.test_semantic_buffer",
+          "status": "passed",
+          "seconds": 0.551
+        },
+        {
+          "name": "test_mcp_end_to_end",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 1.567
+        },
+        {
+          "name": "test_observer_auth_and_readonly",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.625
+        },
+        {
+          "name": "test_crash_recovery_preserves_action_status_and_kills_owned_process",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 1.048
+        },
+        {
+          "name": "test_interrupted_store_record",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_mcp_cancellation_reaches_daemon",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.013
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[1]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.767
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[1.5]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.591
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[2]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.679
+        },
+        {
+          "name": "test_native_wayland_dialog_and_drag",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.257
+        },
+        {
+          "name": "test_covered_gtk_semantic_input_preserves_foreground_sentinel",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.628
+        },
+        {
+          "name": "test_kwin_backend_refuses_host_bus",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 0.006
+        },
+        {
+          "name": "test_native_gtk_coordinate_input",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.528
+        },
+        {
+          "name": "test_private_wayland_input_does_not_reach_other_display",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.926
+        },
+        {
+          "name": "test_custom_painted_canvas_without_semantic_controls",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.714
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "exit_code": 0,
+      "source_unchanged": true,
+      "tests": [
+        {
+          "name": "test_cursor_projection_tracks_move_resize_and_rejects_invalid_target",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_activity_hides_on_error_and_expired_heartbeat",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_kwin_tracker_follows_real_window_move_and_resize",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.556
+        },
+        {
+          "name": "test_overlay_keeps_one_click_through_window_while_activity_changes",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 1.04
+        },
+        {
+          "name": "test_motion_eases_and_retargeting_is_continuous",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_activity_move_and_click_are_explicit_events",
+          "suite": "tests.test_cursor",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_x11_input_capture_scaling[1]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.595
+        },
+        {
+          "name": "test_x11_input_capture_scaling[1.5]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.629
+        },
+        {
+          "name": "test_x11_input_capture_scaling[2]",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.755
+        },
+        {
+          "name": "test_gtk_semantic_unicode_no_focus",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.967
+        },
+        {
+          "name": "test_browser_unicode_click_scroll_dialog",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.273
+        },
+        {
+          "name": "test_policy_identity_and_no_log_payload",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.578
+        },
+        {
+          "name": "test_replay_busy_cancel_and_durable_status",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.603
+        },
+        {
+          "name": "test_timeout_has_unknown_effect_and_new_target",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 0.54
+        },
+        {
+          "name": "test_independent_tasks_and_drag_selection",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 1.429
+        },
+        {
+          "name": "test_cancel_interrupts_blocked_backend",
+          "suite": "tests.test_desktop",
+          "status": "passed",
+          "seconds": 2.389
+        },
+        {
+          "name": "test_public_mcp_cannot_enroll_live_window",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_live_close_only_stops_owned_helpers",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_one_live_enrollment_and_expiry",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_input_guard_revokes_live_grant",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.001
+        },
+        {
+          "name": "test_unconfigured_live_adapter_never_inspects_desktop",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_live_configuration_requires_explicit_paths_and_title",
+          "suite": "tests.test_live_revu",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_scoped_buffer_rejects_human_edit_without_overwriting",
+          "suite": "tests.test_semantic_buffer",
+          "status": "passed",
+          "seconds": 0.565
+        },
+        {
+          "name": "test_mcp_end_to_end",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 1.567
+        },
+        {
+          "name": "test_observer_auth_and_readonly",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.627
+        },
+        {
+          "name": "test_crash_recovery_preserves_action_status_and_kills_owned_process",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 1.108
+        },
+        {
+          "name": "test_interrupted_store_record",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.002
+        },
+        {
+          "name": "test_mcp_cancellation_reaches_daemon",
+          "suite": "tests.test_service",
+          "status": "passed",
+          "seconds": 0.012
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[1]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.739
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[1.5]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.588
+        },
+        {
+          "name": "test_native_wayland_input_capture_scale_and_second_output[2]",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.762
+        },
+        {
+          "name": "test_native_wayland_dialog_and_drag",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 2.343
+        },
+        {
+          "name": "test_covered_gtk_semantic_input_preserves_foreground_sentinel",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.58
+        },
+        {
+          "name": "test_kwin_backend_refuses_host_bus",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 0.006
+        },
+        {
+          "name": "test_native_gtk_coordinate_input",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.54
+        },
+        {
+          "name": "test_private_wayland_input_does_not_reach_other_display",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.842
+        },
+        {
+          "name": "test_custom_painted_canvas_without_semantic_controls",
+          "suite": "tests.test_wayland",
+          "status": "passed",
+          "seconds": 1.723
+        }
+      ]
+    }
+  ],
+  "scope": "isolated X11, headless CDP, native Wayland on private KWin; live Revu evidence is separately recorded",
+  "unsupported": "arbitrary existing native Wayland canvases, unenrolled live apps, universal compatibility"
+}

@@ -1,0 +1,29 @@
+{
+  "scope": "isolated fixtures only",
+  "results": [
+    {
+      "backend": "qt",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 113.69,
+      "max_ms": 167.01
+    },
+    {
+      "backend": "gtk",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 102.85,
+      "max_ms": 112.35
+    },
+    {
+      "backend": "browser",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 33.34,
+      "max_ms": 49.47
+    }
+  ]
+}

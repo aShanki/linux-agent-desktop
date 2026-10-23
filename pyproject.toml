@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "linux-agent-desktop"
+version = "0.2.0"
+description = "Opt-in, isolated Linux desktop automation service and MCP bridge"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.12"
+dependencies = ["mcp>=1.26,<2", "python-xlib>=0.33", "websockets>=15,<16", "Pillow>=10"]
+
+[project.urls]
+Repository = "https://github.com/aShanki/linux-agent-desktop"
+Issues = "https://github.com/aShanki/linux-agent-desktop/issues"
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.scripts]
+lad = "lad.cli:main"
+lad-mcp = "lad.mcp_server:main"
+
+[tool.setuptools.packages.find]
+include = ["lad*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+lad = ["*.html", "native/*.c"]

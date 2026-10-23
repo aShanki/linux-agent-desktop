@@ -1,0 +1,26 @@
+{
+  "app": "Kate",
+  "scope": "existing normal desktop window; synthetic Python document; AT-SPI edits and Save action",
+  "duration_seconds": 16.08,
+  "codec": "H.264",
+  "resolution": [
+    1280,
+    850
+  ],
+  "audio": false,
+  "video_sha256": "f1361d1eeb5be252d23222f85772f4d4bbb3e5392477d3764ca6029781762f76",
+  "tests_passed": 5,
+  "saved_editor_matches": true,
+  "actions": [
+    "select function",
+    "replace floating point arithmetic",
+    "save",
+    "run regression tests",
+    "add validation",
+    "save",
+    "verify all five tests",
+    "select regression test"
+  ],
+  "content_review": "Synthetic source and owned demo tabs only; no credentials or private user document contents.",
+  "limitations": "A scoped live Kate workflow; not universal application support or atomic concurrent text editing."
+}

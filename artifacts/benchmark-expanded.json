@@ -1,0 +1,53 @@
+{
+  "scope": "isolated fixtures only",
+  "results": [
+    {
+      "backend": "qt",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 112.32,
+      "max_ms": 126.54
+    },
+    {
+      "backend": "gtk",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 122.74,
+      "max_ms": 150.41
+    },
+    {
+      "backend": "browser",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 33.45,
+      "max_ms": 50.92
+    },
+    {
+      "backend": "wayland-qt",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 87.14,
+      "max_ms": 97.06
+    },
+    {
+      "backend": "wayland-gtk",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 88.2,
+      "max_ms": 98.06
+    },
+    {
+      "backend": "wayland-canvas",
+      "operation": "window_capture",
+      "runs": 10,
+      "successes": 10,
+      "median_ms": 83.16,
+      "max_ms": 95.74
+    }
+  ]
+}
