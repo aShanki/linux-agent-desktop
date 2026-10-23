@@ -4,9 +4,11 @@ A local, provider-neutral desktop automation service and MCP bridge for Claude
 Code and Codex. It operates dedicated applications in background sessions and
 reports the limits of each backend instead of claiming universal desktop access.
 
-**Experimental.** General control of arbitrary already-running Wayland or Wine
-applications is not implemented. The live Revu adapter is an explicitly
-configured, short-lived test-document integration.
+**Experimental.** Already-running native Wayland and Wine/Xwayland windows can
+be attached in an explicitly enrolled, dedicated Sway session. Input uses that
+session's seat and capture reads its visible region. This is not universal host
+desktop access. See [Sway attachment and boundaries](docs/sway-attachment.md).
+The separate live Revu adapter remains a short-lived test-document integration.
 
 ## Implemented
 
@@ -16,6 +18,8 @@ configured, short-lived test-document integration.
 - Owned headless Chromium: CDP input, screenshots and dialogs with a fresh profile.
 - Stable targeting, per-task ownership/locking, cancellation, timeouts, action
   deduplication, durable metadata-only results and crash recovery.
+- Operator-selected Sway attachment: stable window identity, text/shortcuts,
+  pointer input, visible capture and floating-window move/resize through MCP.
 - A read-only observer with an animated cursor, click rings and drag trails.
   Its pointer is separate from the user's pointer.
 - A shared MCP interface and skills for Claude Code and Codex.
@@ -77,8 +81,8 @@ sandbox against other processes running as the same operating-system user.
 
 The clip records a normal desktop Kate window edited through AT-SPI and its
 application API, with a real save and five passing program tests.
-This prototype does not make arbitrary applications available through the MCP
-fixture tools. The cursor is a separate, click-through indicator; it is hidden
+This older demo uses a separate application-specific route. General Sway
+attachment uses the operator enrollment described above. The cursor is a separate, click-through indicator; it is hidden
 when idle and tracks window movement and resizing.
 
 ## License

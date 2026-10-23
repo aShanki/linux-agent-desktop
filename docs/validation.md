@@ -60,3 +60,26 @@ The accessibility bus was temporarily enabled for the live demo and its original
 setting restored. The temporary capture permission and startup focus rule were
 removed. Human and agent edits are not atomic; detected conflicts or partial
 results require inspection. Universal live desktop control is not claimed.
+
+## Dedicated Sway attachment on a server without a GPU
+
+The [attachment report](../artifacts/attachment-conformance.json) records three
+independent 5/5 runs with unchanged source fingerprints. It covers actual
+Mousepad, Wine Notepad, the MCP bridge and failure/recovery paths. The
+[server validation report](../artifacts/server-validation.json) distinguishes
+observed application effects from exercised pointer-delivery paths.
+
+The full suite on this server passes 37 cases and fails five private-KWin
+ScreenShot2 capture cases. Running the untouched starting commit's KWin tests
+on the same server yields the identical five failures and four passes. KWin's
+virtual backend selects QPainter here; its screenshot implementation requires
+an EGL backend. This pre-existing hardware/runtime limit does not affect Sway's
+pixman capture path. The full suite is not reported as green.
+
+Reproduce the new adapter independently with
+`.venv/bin/python scripts/conformance.py --suite sway --rounds 3` after building
+the native helper. Real apps use disposable documents, a fresh Wine prefix,
+private D-Bus, fresh profiles and dedicated software-rendered outputs. Tests
+leave attached applications running when their service grants are closed;
+the test harness then shuts down only its own applications and compositor.
+No Revu installation or license was available for a fresh Revu smoke check.

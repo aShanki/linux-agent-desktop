@@ -1,0 +1,80 @@
+{
+  "generated_at": "2026-10-23T07:16:07.118271+00:00",
+  "evidence": "agent-reported local verification",
+  "implementation_source_sha256": "6e47f12e9d38b738c213f4fe4076edc46b85e8b75e9892afa41ca23b05618b14",
+  "environment": {
+    "os": "Ubuntu 26.04",
+    "renderer": "Sway pixman headless; two virtual outputs; no GPU",
+    "packages": [
+      "kwin-wayland 4:6.6.6-0ubuntu0.1",
+      "mousepad 0.7.0-1",
+      "sway 1.11-3",
+      "wine64 10.0~repack-12ubuntu1"
+    ]
+  },
+  "attachment_rounds": [
+    {
+      "passed": 5,
+      "total": 5,
+      "source_unchanged": true
+    },
+    {
+      "passed": 5,
+      "total": 5,
+      "source_unchanged": true
+    },
+    {
+      "passed": 5,
+      "total": 5,
+      "source_unchanged": true
+    }
+  ],
+  "full_suite": {
+    "passed": 37,
+    "failed": 5,
+    "failures": [
+      "test_native_wayland_input_capture_scale_and_second_output[1]",
+      "test_native_wayland_input_capture_scale_and_second_output[1.5]",
+      "test_native_wayland_input_capture_scale_and_second_output[2]",
+      "test_covered_gtk_semantic_input_preserves_foreground_sentinel",
+      "test_custom_painted_canvas_without_semantic_controls"
+    ]
+  },
+  "baseline_comparison": {
+    "base_commit": "05e6251a090188bcf29234ccbc00dcc5647cb5a0",
+    "scope": "unchanged private-KWin test file on the same server",
+    "passed": 4,
+    "failed": 5,
+    "same_failing_cases": true,
+    "reason": "KWin virtual QPainter has no EGL backend for ScreenShot2 capture"
+  },
+  "package_build": {
+    "outcome": "passed",
+    "artifacts": {
+      "linux_agent_desktop-0.2.0-py3-none-any.whl": "9f1df256fb3334c454cf8a340fb09afeb3fd51052eb35c59bd8057623b5fc88a",
+      "linux_agent_desktop-0.2.0.tar.gz": "60c91651fd15f3c5ad7a4360391b96148fcd9c969d0e1fe8e681aaa19d53862c",
+      ".gitignore": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    }
+  },
+  "verified_effects": [
+    "Mousepad exact saved Unicode scratch text",
+    "Wine Notepad exact saved ASCII scratch text with capitalization",
+    "MCP input/save and PNG response",
+    "floating-window position and dimensions",
+    "sentinel document unchanged after focus-loss rejection",
+    "ownership contention and wrong-owner rejection",
+    "action replay avoids duplicate text",
+    "timeout unknown-effect journal",
+    "active cancellation leaves app alive",
+    "lease expiry and compositor identity rejection",
+    "daemon crash interrupts journal, kills owned helper and preserves attached app"
+  ],
+  "limits": [
+    "Sway-specific dedicated-session attachment; not universal desktop access",
+    "pointer actions exercised but application-specific pointer effects not exhaustively asserted",
+    "visible-region screenshot may include session overlays",
+    "Wine Unicode and other layouts/IMEs not established",
+    "Revu not installed/licensed in this environment; existing separate adapter not exercised",
+    "five private-KWin capture cases fail on both baseline and patch due this server EGL limitation"
+  ]
+}

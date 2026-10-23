@@ -27,3 +27,14 @@ public issue. Otherwise open a content-free issue asking for a private channel.
 Publication checks cover the staged tree and outgoing history with Gitleaks,
 plus explicit checks for local paths and disallowed files. No automated scanner
 can prove the absence of every possible sensitive value.
+
+## Dedicated Sway attachment
+
+The operator-only Sway grant explicitly permits session focus/pointer changes
+and visible-region capture, including overlays. Use a dedicated, exclusively
+controlled session. Focus/identity checks are not atomic with compositor input.
+Other participants in that session can redirect events between checks.
+No grant is inferred from inherited desktop variables; sockets, compositor and
+target process lifetimes are checked. One cross-service seat lease prevents
+accidental concurrent enrollment. Revocation kills only helpers, never attached
+apps. See [attachment boundaries and recovery](docs/sway-attachment.md).

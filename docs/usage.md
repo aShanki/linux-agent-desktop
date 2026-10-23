@@ -115,3 +115,9 @@ this enrollment, although a same-user shell can run the operator CLI.
 
 The last command starts fresh private instances and verifies saved scratch text.
 It does not enroll existing user windows. See [the evidence](conformance.md).
+
+## Attach already-running applications
+
+Use the operator-only [Sway attachment workflow](sway-attachment.md). After
+enrollment, the same MCP `desktop_tasks`, discovery, action and screenshot tools
+operate the granted window. Fixture launch permissions do not grant live access.

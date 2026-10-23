@@ -12,7 +12,7 @@ from .protocol import request, DEFAULT_SOCKET
 OWNER = os.environ.get('LAD_CLIENT_ID') or uuid.uuid4().hex
 SOCKET = Path(os.environ.get('LAD_SOCKET', DEFAULT_SOCKET))
 mcp = FastMCP('linux-agent-desktop', instructions=(
-    'Use isolated fixtures or explicitly operator-enrolled Revu test tasks only; never credentials. '
+    'Use isolated fixtures or explicitly operator-enrolled live tasks only; never credentials. '
     'Call desktop_capabilities, open a task, discover a target, then act using a fresh action_id. '
     'Coordinates use the target-reported space. Inspect after writes: delivery does not prove effect. '
     'Never retry an unknown-effect write with a new ID. Close your task when done.'))
@@ -43,7 +43,7 @@ async def desktop_capabilities() -> dict[str, Any]:
 
 @mcp.tool(annotations={'readOnlyHint': True})
 async def desktop_tasks() -> dict[str, Any]:
-    """List this client's tasks, including operator-enrolled live Revu test windows."""
+    """List this client's tasks, including operator-enrolled live windows."""
     return await call('list_tasks')
 
 @mcp.tool()
@@ -61,7 +61,7 @@ async def desktop_action(task_id: str, action_id: str, action: str, native_id: i
                          args: dict | None = None, timeout: float = 8) -> dict[str, Any]:
     """Run a permitted action on an enrolled target. Use returned target ID and coordinates. Inspect to verify writes.
 
-    Actions: geometry, tree, click(x,y), type(text), key(key,modifier), scroll(x,y,steps),
+    Actions: geometry, tree, focus(), move(x,y), resize(width,height), click(x,y), type(text), key(key,modifier), scroll(x,y,steps),
     drag(x,y,end_x,end_y), set_text(element,text), invoke(element,name), dialog(accept).
     Non-success may have unknown effects; query desktop_result before any retry.
     """

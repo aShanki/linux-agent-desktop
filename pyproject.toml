@@ -29,4 +29,4 @@ include = ["lad*"]
 testpaths = ["tests"]
 
 [tool.setuptools.package-data]
-lad = ["*.html", "native/*.c"]
+lad = ["*.html", "native/*.c", "native/*.xml"]

@@ -17,7 +17,7 @@ unrelated input recipients alone. Tests do not control the user's live desktop.
 | Headless Chrome | Unicode text, click count, wheel, modal dismiss, PNG | Dedicated process/profile/CDP target | Browser target identity checked |
 | Live Revu in Wine | Real rectangle, ellipse, arrow, Hand mode, PNG | Direct Win32 child-window messages and input-state guards | Explicit five-minute sample-document grant; manual evidence in revu-live-test.md |
 
-## Recorded outcome
+## Original recorded outcome
 
 Three complete independent rounds passed: **37/37, 37/37, 37/37**.
 Raw cases, durations and outcomes are in [`artifacts/conformance.json`](../artifacts/conformance.json)
@@ -77,12 +77,13 @@ Primary interfaces:
 
 ## What remains outside the evidence
 
-An arbitrary already-running native Wayland custom canvas is not covered. A
+Outside the explicitly enrolled dedicated Sway session, an arbitrary
+already-running native Wayland custom canvas is not covered. A
 client may expose no usable accessibility interface or application automation
 API, and the compositor routes ordinary input to its selected surface. Moving a
 private seat does not inject into an arbitrary host surface. Existing apps need
 an explicitly authorized semantic/application-specific route, or must be launched
-in isolation. General Wine programs, GPU overlays, games, multi-seat hardware,
+in isolation. Wine applications outside the new Sway/Xwayland path, GPU overlays, games, multi-seat hardware,
 password input, and prolonged production workloads are not established by this
 suite. The hardware monitor layout is not changed; two-monitor tests use virtual
 outputs. A passing sample suite is not a universal compatibility proof.
@@ -129,3 +130,18 @@ The separate [live Kate demo](../artifacts/demo-kate.mp4) edits a synthetic invo
 calculator in an ordinary desktop window using AT-SPI, saves through Kate, and
 runs five passing tests against the saved file. It is not a general live-window
 MCP enrollment or a guarantee of atomic edits alongside human typing.
+
+## Real Sway attachment
+
+The new [Sway attachment suite](sway-attachment.md) tests independently started
+Mousepad and Wine Notepad through service enrollment, exact saved scratch output,
+actual PNG capture and safety/failure paths. It runs only with `LAD_TEST_SWAY=1`.
+The historical counts above predate this adapter. Current outcomes and source
+fingerprints are recorded in the generated conformance report. A separate Revu
+installation is not present in this server test environment.
+
+The final Sway attachment run passed **5/5 in each of three rounds**. See the
+[attachment report](../artifacts/attachment-conformance.json) and
+[server validation details](validation.md#dedicated-sway-attachment-on-a-server-without-a-gpu).
+The GPU-less server's five pre-existing KWin capture failures are recorded
+separately; they are not counted as passing tests.

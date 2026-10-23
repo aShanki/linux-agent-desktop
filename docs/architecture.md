@@ -1,6 +1,9 @@
 # Architecture and decisions
 
-This is a working **isolated-fixture vertical slice**, not a general desktop agent.
+The service supports isolated fixtures and explicit live-window grants. The
+[Sway attachment](sway-attachment.md) adds a compositor-specific path for real
+native Wayland and Wine/Xwayland applications. The initial fixture decisions
+below describe the default isolation boundary; Sway enrollment is a separate scope.
 It exposes a provider-neutral Unix-socket service through an official-SDK MCP
 stdio bridge. Both Claude Code and Codex use the same actions and policy.
 
@@ -13,7 +16,7 @@ private D-Bus session, fresh HOME/XDG directories, and one allowlisted fixture.
 Qt and GTK use short-lived adapter processes with bounded lifetimes. The browser
 uses a persistent CDP worker to preserve dialog state between actions. No child
 inherits the user's DISPLAY, WAYLAND_DISPLAY, XAUTHORITY, DBus address, profile,
-or other arbitrary environment variables. There is no live-app attachment API.
+or other arbitrary environment variables. Live Sway attachment uses a separate operator-only grant and does not inherit these fixture permissions.
 
 The service is bound to one runtime directory with `flock`; socket directory mode
 0700 and socket mode 0600, plus `SO_PEERCRED`, restrict access to the same OS user.
@@ -22,9 +25,9 @@ boundary against another process running as that same user**. Configured owner I
 are stable per harness for durable result retrieval across client restarts. Clients
 within that harness share the owner namespace; task IDs still distinguish work.
 
-Only this project's fixture launch templates are implemented. Private HOME and
+Only this project's fixture launch templates are implemented; live attachment does not launch applications. Private HOME and
 display are focus/profile isolation, **not a filesystem or network sandbox**.
-Adding arbitrary apps requires an actual sandbox and target enrollment policy.
+Attached apps remain outside a sandbox and require the dedicated-session enrollment policy.
 The service can read its own fixture state and log files, not account credentials.
 The synthetic fixture's `fixture.json` intentionally records its non-sensitive
 input for benchmark assertions; never enter real secrets in these fixtures.
@@ -59,10 +62,11 @@ profile API. A persistent connection handles JavaScript dialogs without losing
 them when a per-action worker disconnects. Browser text uses Input.insertText,
 not clipboard mutation. DOM descriptions exclude password inputs.
 
-Wine is an explicit unvalidated extension point. The existing Revu sign-in helper
+The original fixture-only Wine extension was unvalidated; subsequent Revu and
+Sway/Wine adapters have separate grants and evidence. The existing Revu sign-in helper
 was read as source only; its session/port/profile were never contacted. Its
 cross-process painting limitation is one reason capture support must be proved
-per application. No Win32 backend or Revu control is claimed.
+per application. Those initial observations do not establish support for new Wine applications.
 
 ## ADR 003: failures must not silently replay writes
 

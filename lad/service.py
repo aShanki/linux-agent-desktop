@@ -1,4 +1,4 @@
-"""Provider-neutral daemon for isolated fixtures and explicit live Revu test grants."""
+"""Provider-neutral daemon for isolated fixtures and explicit live application grants."""
 import fcntl
 import hashlib
 import hmac
@@ -24,8 +24,8 @@ from .session import Session
 from .observer import Observer
 
 READS = {'discover', 'geometry', 'screenshot', 'tree'}
-WRITES = {'click', 'type', 'key', 'scroll', 'drag', 'set_text', 'invoke', 'dialog'}
-PARAMETERS = {'discover': set(), 'geometry': set(), 'screenshot': set(), 'tree': set(),
+WRITES = {'focus', 'move', 'resize', 'click', 'type', 'key', 'scroll', 'drag', 'set_text', 'invoke', 'dialog'}
+PARAMETERS = {'focus': set(), 'move': {'x', 'y'}, 'resize': {'width', 'height'}, 'discover': set(), 'geometry': set(), 'screenshot': set(), 'tree': set(),
               'click': {'x', 'y'}, 'type': {'text'}, 'key': {'key', 'modifier'},
               'scroll': {'x', 'y', 'steps'}, 'drag': {'x', 'y', 'end_x', 'end_y'},
               'set_text': {'element', 'text'}, 'invoke': {'element', 'name'}, 'dialog': {'accept'}}
@@ -132,6 +132,10 @@ class DesktopService:
             except (OSError, ValueError, KeyError):
                 continue
 
+        for manifest in self.root.glob('task-*/seat.json'):
+            from .sway import SwaySession
+            SwaySession.recover(manifest.parent)
+
     def _reap(self):
         while not self.stop.wait(5):
             with self.lock:
@@ -154,14 +158,20 @@ class DesktopService:
         require(isinstance(owner, str) and re.fullmatch(r'[a-zA-Z0-9_-]{16,128}', owner), 'invalid_owner', 'Client identity is invalid')
         require(isinstance(params, dict), 'invalid_argument', 'Parameters must be an object')
         if method == 'capabilities':
-            return {'version': __version__, 'scope': 'isolated fixtures; explicitly operator-enrolled Revu test document',
+            return {'version': __version__, 'scope': 'isolated fixtures; operator-enrolled Sway session targets and Revu test document',
                     'backends': {'x11': 'XSendEvent + XGetImage; application-dependent event acceptance',
                                  'atspi': 'owned PID on private D-Bus; toolkit-dependent',
                                  'browser': 'owned headless fixture via CDP',
                                  'wayland': 'private KWin: window capture, EIS input and AT-SPI; no host compositor input',
+                                 'sway-live': 'explicit dedicated-session grant: native Wayland and Wine/Xwayland input, visible capture, floating window move/resize; session focus/pointer may change',
                                  'wine': 'Revu sample document: window capture and guarded direct Win32 click/drag, opt-in enrollment required'},
                     'forbidden': ['unenrolled live desktop', 'foreground fallback', 'credentials', 'external', 'destructive'],
-                    'task_ttl_seconds': 1800, 'max_tasks': 6}
+                    'sway_attachment': {
+                        'configured': all(os.environ.get(k) for k in ('LAD_SWAYSOCK','LAD_XDG_RUNTIME_DIR','LAD_WAYLAND_DISPLAY')),
+                        'requires': 'operator grant for an exclusively controlled dedicated Sway session with seat0',
+                        'capture': 'visible region including overlays; not occlusion independent',
+                        'unsupported': ['other host compositors','multiple seats','Wine Unicode','semantic actions']},
+                    'task_ttl_seconds': 1800, 'live_task_ttl_seconds': 300, 'max_tasks': 6}
         if method == 'list_tasks':
             with self.lock:
                 return {'tasks':[{'task_id':ident,'kind':t.session.kind,'active':not t.cancel.is_set(),
@@ -206,6 +216,26 @@ class DesktopService:
             return self.act(params, owner)
         raise DesktopError('unknown_method', 'Unknown service method')
 
+    def enroll_sway(self, params):
+        require(set(params) == {'owner','native_id','pid','consent_session'}, 'invalid_argument', 'Supply owner, exact native_id/PID and session consent')
+        owner = params['owner']
+        require(isinstance(owner,str) and re.fullmatch(r'[a-zA-Z0-9_-]{16,128}',owner), 'invalid_owner', 'A valid client owner is required')
+        require(params['consent_session'] is True, 'permission_denied', 'Operator must grant exclusive session input and visible capture')
+        from .sway import SwaySession
+        with self.lock:
+            require(sum(not t.cancel.is_set() for t in self.tasks.values()) < 6, 'capacity', 'Task limit reached')
+            ident = uuid.uuid4().hex
+            session = SwaySession(self.root / ('task-'+ident), params['native_id'], params['pid'])
+            self.tasks[ident] = Task(owner, session, ttl=300)
+            if len(self.tasks) > 64:
+                old = next((key for key,value in self.tasks.items() if value.cancel.is_set()),None)
+                if old is not None:
+                    del self.tasks[old]
+        # Do not capture at enrollment. The operator-selected target may be covered.
+        return {'task_id':ident, 'kind':session.kind, 'native_id':session.native_id,
+                'expires_in':300, 'isolated':False,
+                'permission':'exclusive Sway session input and visible-region capture; detach never closes the app'}
+
     def enroll_revu(self, owner):
         # Explicit operator-only entry point; never exposed as an MCP attachment tool.
         require(isinstance(owner,str) and re.fullmatch(r'[a-zA-Z0-9_-]{16,128}',owner),
@@ -248,10 +278,11 @@ class DesktopService:
                 result = task.session.run(dict(args, action=action, native_id=params.get('native_id')), timeout)
                 require(not task.cancel.is_set(), 'cancelled', 'Task cancelled during action; effect may have occurred')
             except DesktopError as exc:
-                if task.session.kind == 'wine-revu' and exc.code == 'focus_changed':
+                if ((task.session.kind == 'wine-revu' and exc.code == 'focus_changed') or
+                        (task.session.kind == 'sway-live' and exc.code in ('focus_changed','stale_target','backend_failed','timeout'))):
                     task.cancel.set()
                     task.session.close()
-                status = 'unknown' if exc.code in ('timeout','cancelled','backend_failed','focus_changed') else 'failed'
+                status = 'unknown' if exc.code in ('timeout','cancelled','backend_failed','focus_changed','stale_target') else 'failed'
                 self.store.finish(ident, status, {'code': exc.code})
                 self.observer.event(task_id, task.session.kind, action, args, status)
                 raise
@@ -264,7 +295,7 @@ class DesktopService:
             self.observer.event(task_id, task.session.kind, action, args, 'succeeded')
             if action == 'screenshot':
                 self.observer.frame(task_id, result)
-            elif action in WRITES and not result.get('dialog_open'):
+            elif action in WRITES and task.session.kind != 'sway-live' and not result.get('dialog_open'):
                 self.capture(task_id, task, params.get('native_id'))
             return {'action_id': ident, 'status': 'succeeded', 'result': result}
         finally:
@@ -305,7 +336,12 @@ class Handler(socketserver.StreamRequestHandler):
             _, uid, _ = struct.unpack('3i', self.request.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, 12))
             require(uid == os.getuid(), 'permission_denied', 'Unix peer must have the service UID')
             req = read_message(self.rfile)
-            if req.get('method') == 'operator_enroll_revu':
+            if req.get('method') == 'operator_sway_targets':
+                from .sway import SwayConnection
+                result = {'windows':SwayConnection().inventory()}
+            elif req.get('method') == 'operator_enroll_sway':
+                result = self.server.desktop.enroll_sway(req.get('params',{}))
+            elif req.get('method') == 'operator_enroll_revu':
                 result = self.server.desktop.enroll_revu(req.get('params',{}).get('owner'))
             elif req.get('method') == 'operator_revoke_all':
                 # Local same-UID operator interface; deliberately not advertised by MCP.

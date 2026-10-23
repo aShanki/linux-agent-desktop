@@ -1,0 +1,123 @@
+{
+  "source_sha256": "6e47f12e9d38b738c213f4fe4076edc46b85e8b75e9892afa41ca23b05618b14",
+  "generated_at": "2026-10-23T07:14:12.028485+00:00",
+  "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.43",
+  "python": "3.14.4",
+  "rounds": [
+    {
+      "round": 1,
+      "exit_code": 0,
+      "source_unchanged": true,
+      "tests": [
+        {
+          "name": "test_no_implicit_desktop",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_operator_only",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 0.029
+        },
+        {
+          "name": "test_real_native_and_failures",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 1.653
+        },
+        {
+          "name": "test_real_wine_notepad",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 18.565
+        },
+        {
+          "name": "test_live_mcp_and_crash_recovery",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 6.257
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "exit_code": 0,
+      "source_unchanged": true,
+      "tests": [
+        {
+          "name": "test_no_implicit_desktop",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_operator_only",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 0.034
+        },
+        {
+          "name": "test_real_native_and_failures",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 1.572
+        },
+        {
+          "name": "test_real_wine_notepad",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 20.663
+        },
+        {
+          "name": "test_live_mcp_and_crash_recovery",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 6.335
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "exit_code": 0,
+      "source_unchanged": true,
+      "tests": [
+        {
+          "name": "test_no_implicit_desktop",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 0.0
+        },
+        {
+          "name": "test_operator_only",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 0.032
+        },
+        {
+          "name": "test_real_native_and_failures",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 1.579
+        },
+        {
+          "name": "test_real_wine_notepad",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 18.553
+        },
+        {
+          "name": "test_live_mcp_and_crash_recovery",
+          "suite": "tests.test_sway",
+          "status": "passed",
+          "seconds": 11.096
+        }
+      ]
+    }
+  ],
+  "suite": "sway",
+  "scope": "operator-enrolled dedicated Sway: real Mousepad, Wine Notepad and MCP, software renderer, two virtual outputs",
+  "sway_real_apps_enabled": true,
+  "unsupported": "unenrolled live apps, host compositor attachment other than dedicated Sway, universal compatibility"
+}
