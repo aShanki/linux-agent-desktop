@@ -13,6 +13,14 @@ from .errors import DesktopError, require
 gi.require_version('Gio','2.0')
 from gi.repository import Gio,GLib
 
+LETTER_KEYS = dict(zip('qwertyuiopasdfghjklzxcvbnm',
+                      [16,17,18,19,20,21,22,23,24,25,30,31,32,33,34,35,36,37,38,44,45,46,47,48,49,50]))
+KEYS = dict(LETTER_KEYS, Return=28, Tab=15, Escape=1, BackSpace=14,
+            Down=108, Up=103, Left=105, Right=106, Home=102, End=107,
+            PageUp=104, PageDown=109, Delete=111, space=57)
+KEYS.update({f'F{i}': 58+i for i in range(1,11)})
+KEYS.update(F11=87, F12=88)
+
 
 class PrivateBus:
     def __init__(self):
@@ -32,6 +40,7 @@ class PrivateBus:
 
 class EmulatedInput:
     def __init__(self,bus):
+        self.bus=bus  # KWin revokes EIS when its D-Bus client disconnects.
         result,fds=bus.bus.call_with_unix_fd_list_sync('org.kde.KWin','/org/kde/KWin/EIS/RemoteDesktop',
                  'org.kde.KWin.EIS.RemoteDesktop','connectToEIS',GLib.Variant('(i)',(3,)),None,
                  Gio.DBusCallFlags.NONE,3000,None,None)
@@ -56,6 +65,7 @@ class EmulatedInput:
         self.lib.ei_seat_bind_capabilities.argtypes=[ptr]
         self.lib.ei_seat_bind_capabilities.restype=None
         self.context=self.lib.ei_new_sender(None)
+        self.held_keys=set();self.button_down=False;self.closed=False
         self.lib.ei_configure_name(self.context,b'LAD isolated test input')
         require(self.lib.ei_setup_backend_fd(self.context,fd)==0,'input_unavailable','Cannot connect private EIS input')
         self.pointer=None;self.keyboard=None;self.devices=[]
@@ -90,16 +100,30 @@ class EmulatedInput:
         self.lib.ei_device_pointer_motion_absolute(self.pointer,x,y);self.frame(self.pointer)
 
     def button(self,pressed):
+        self.button_down=pressed
         self.lib.ei_device_button_button(self.pointer,0x110,pressed);self.frame(self.pointer)
 
     def key(self,key,pressed):
+        if pressed:self.held_keys.add(key)
+        else:self.held_keys.discard(key)
         self.lib.ei_device_keyboard_key(self.keyboard,key,pressed);self.frame(self.keyboard)
 
+    def wait(self,seconds):
+        end=time.monotonic()+seconds
+        while time.monotonic()<end:
+            self.pump(min(.05,max(0,end-time.monotonic())))
+
     def close(self):
-        if self.pointer:self.button(False)
-        for d in self.devices:
-            self.lib.ei_device_stop_emulating(d);self.lib.ei_device_unref(d)
-        self.lib.ei_dispatch(self.context);self.lib.ei_unref(self.context)
+        if self.closed:return
+        self.closed=True
+        try:
+            if self.pointer and self.button_down:self.button(False)
+            for key in list(self.held_keys):self.key(key,False)
+        finally:
+            for d in self.devices:
+                self.lib.ei_device_stop_emulating(d);self.lib.ei_device_unref(d)
+            self.lib.ei_dispatch(self.context);self.lib.ei_unref(self.context)
+            self.bus=None
 
 
 class KWin(PrivateBus):
@@ -167,6 +191,10 @@ print("LAD_NONCE:"+JSON.stringify({windows:out,stacking:stacking,screens:screens
             from .accessibility import Accessibility
             return dict(Accessibility(self.pid).execute(op),host_input_isolated=True)
         require(action in ('click','drag','scroll','type','key'),'unsupported_action','Unsupported native Wayland operation')
+        if 'hold_ms' in op:
+            require(action in ('click','key'),'invalid_argument','hold_ms applies only to click and key')
+        hold_ms=op.get('hold_ms',150)
+        require(type(hold_ms) is int and 1<=hold_ms<=10000,'invalid_argument','hold_ms must be an integer from 1 to 10000')
         require(not w['minimized'],'not_viewable','Restore the isolated window before coordinate input')
         if action in ('type','key'):
             require(w['active'],'target_not_active','Keyboard input requires the active window inside the private compositor')
@@ -202,20 +230,20 @@ print("LAD_NONCE:"+JSON.stringify({windows:out,stacking:stacking,screens:screens
                     inputs.button(True)
                     if action=='drag':
                         for i in range(1,11):inputs.move(w['x']+x+(ex-x)*i/10,w['y']+y+(ey-y)*i/10);inputs.pump(.01)
+                    else:inputs.wait(hold_ms/1000)
                     inputs.button(False)
             elif action=='key':
-                keys={'Return':28,'Tab':15,'Escape':1,'BackSpace':14,'Down':108,'Up':103,'a':30,'s':31}
-                require(op.get('key') in keys,'unsupported_key','Key is outside the private-compositor key subset')
+                require(op.get('key') in KEYS,'unsupported_key','Key is outside the private-compositor key subset')
                 require(op.get('modifier','none') in ('none','ctrl','shift','alt'),'invalid_argument','Unknown modifier')
                 modifier={'none':None,'ctrl':29,'shift':42,'alt':56}.get(op.get('modifier','none'))
                 if modifier:inputs.key(modifier,True)
-                inputs.key(keys[op['key']],True);inputs.key(keys[op['key']],False)
+                inputs.key(KEYS[op['key']],True);inputs.wait(hold_ms/1000);inputs.key(KEYS[op['key']],False)
                 if modifier:inputs.key(modifier,False)
             else:
                 text=op.get('text')
                 require(isinstance(text,str) and text.isascii() and text.isprintable() and len(text)<=4096,
                         'unsupported_text','Use semantic input for Unicode')
-                mapping=dict(zip('qwertyuiopasdfghjklzxcvbnm',[16,17,18,19,20,21,22,23,24,25,30,31,32,33,34,35,36,37,38,44,45,46,47,48,49,50]))
+                mapping=dict(LETTER_KEYS)
                 mapping.update(dict(zip('1234567890',[2,3,4,5,6,7,8,9,10,11])));mapping[' ']=57
                 require(all(c.lower() in mapping for c in text),'unsupported_text','Current keymap accepts letters digits and spaces')
                 for char in text:

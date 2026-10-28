@@ -63,6 +63,7 @@ async def desktop_action(task_id: str, action_id: str, action: str, native_id: i
 
     Actions: geometry, tree, focus(), move(x,y), resize(width,height), click(x,y), type(text), key(key,modifier), scroll(x,y,steps),
     drag(x,y,end_x,end_y), set_text(element,text), invoke(element,name), dialog(accept).
+    Private KWin click/key actions accept hold_ms (1–10000, default 150); include it in timeout.
     Non-success may have unknown effects; query desktop_result before any retry.
     """
     if action == 'screenshot':

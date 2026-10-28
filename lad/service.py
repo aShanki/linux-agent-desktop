@@ -26,7 +26,7 @@ from .observer import Observer
 READS = {'discover', 'geometry', 'screenshot', 'tree'}
 WRITES = {'focus', 'move', 'resize', 'click', 'type', 'key', 'scroll', 'drag', 'set_text', 'invoke', 'dialog'}
 PARAMETERS = {'focus': set(), 'move': {'x', 'y'}, 'resize': {'width', 'height'}, 'discover': set(), 'geometry': set(), 'screenshot': set(), 'tree': set(),
-              'click': {'x', 'y'}, 'type': {'text'}, 'key': {'key', 'modifier'},
+              'click': {'x', 'y', 'hold_ms'}, 'type': {'text'}, 'key': {'key', 'modifier', 'hold_ms'},
               'scroll': {'x', 'y', 'steps'}, 'drag': {'x', 'y', 'end_x', 'end_y'},
               'set_text': {'element', 'text'}, 'invoke': {'element', 'name'}, 'dialog': {'accept'}}
 
@@ -264,6 +264,8 @@ class DesktopService:
         timeout = params.get('timeout', 8)
         require(type(timeout) in (int, float) and 0.05 <= timeout <= 15, 'invalid_argument', 'Timeout must be 0.05–15 seconds')
         task = self.get_task(task_id, owner)
+        if 'hold_ms' in args:
+            require(task.session.kind.startswith('wayland-'),'unsupported_action','hold_ms requires a private KWin target')
         require(task.lock.acquire(blocking=False), 'busy', 'Another action owns this task; retry after it completes')
         try:
             require(not task.cancel.is_set(), 'cancelled', 'Task was cancelled')

@@ -72,6 +72,20 @@ logical coordinates to screenshot pixels. GTK semantic text and CDP support
 Unicode. Native Wayland key text currently supports letters, digits and spaces.
 Covered coordinate targets reject input; GTK semantic actions can remain usable.
 
+Private KWin `click` and `key` actions hold the button or key for 150 ms so
+applications that poll input each frame can observe the press. Set `hold_ms`
+between 1 and 10000 for a different duration, and allow enough action timeout
+for the hold and backend startup. Other backends reject this option. KWin keys
+include lowercase letters, arrows, navigation keys, `space`, and `F1`–`F12`.
+
+Owned KWin fixture sessions retain an EIS input connection until the session
+closes. Removing the last virtual pointer between actions can break Xwayland
+pointer locking when a Wine application enters gameplay. Operators using the
+KWin adapter directly on their own isolated compositor can supervise
+`python -m lad.kwin_input` with that compositor's private environment and stop
+it after the applications close. The existing isolated-runtime and compositor
+identity guards still apply; this does not attach to a shared host desktop.
+
 Completed action replays return metadata rather than original screenshots or
 text. A timeout or cancellation may leave a partial effect. Tasks cannot resume
 after daemon restart. Owner IDs namespace clients; the OS user remains the
