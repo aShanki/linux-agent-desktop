@@ -8,6 +8,7 @@ from conftest import act
 from lad.errors import DesktopError
 from lad.session import kill_process
 from test_wayland import open_native
+from test_desktop import wait_state
 
 
 def state_at(path, condition, timeout=3):
@@ -43,6 +44,23 @@ def test_frame_polled_clicks_and_held_keys(service, owner):
     act(service, owner, task, 'key', native, {'key': 'w', 'hold_ms': 250})
     value = state_at(session.state_file, lambda s: s['keys'] == 1 and not s['key_down'])
     assert value['key_ticks'] >= 3
+
+
+@pytest.mark.parametrize('text', [
+    '/fill -5 -60 12 5 -55 12 minecraft:gold_block',
+    ''.join(chr(code) for code in range(32, 127)),
+])
+def test_native_text_punctuation_and_shift_release(service, owner, text):
+    task, native, session, _ = open_native(service, owner, 'wayland-qt')
+    act(service, owner, task, 'click', native, {'x': 80, 'y': 85})
+    act(service, owner, task, 'type', native, {'text': text})
+    wait_state(session, lambda s: s['text'] == text)
+    act(service, owner, task, 'type', native, {'text': 'a'})
+    wait_state(session, lambda s: s['text'] == text + 'a')
+    with pytest.raises(DesktopError) as exc:
+        act(service, owner, task, 'type', native, {'text': 'prefix\ncommand'})
+    assert exc.value.code == 'unsupported_text'
+    assert json.loads(session.state_file.read_text())['text'] == text + 'a'
 
 
 @pytest.mark.parametrize('hold', [0, -1, 10001, True, 1.5, '150'])

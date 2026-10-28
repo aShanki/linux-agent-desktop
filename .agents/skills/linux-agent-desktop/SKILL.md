@@ -67,8 +67,8 @@ custom-painted widgets. It changes only its own virtual seat. Covered coordinate
 targets are rejected; use GTK semantic actions for covered windows.
 Live Revu currently rejects typing, keys, wheel and semantic actions.
 X11 `type` supports printable ASCII; GTK semantic text and CDP support Unicode.
-Private KWin text currently supports letters, digits and spaces on its default
-keymap. Do not claim Unicode or arbitrary punctuation for that route.
+Private KWin text supports printable US ASCII on its default keymap. Use semantic
+input for Unicode or control characters; other keyboard layouts are unvalidated.
 For key combinations use `args={"key":"a","modifier":"ctrl"}`; X11 key names
 include `Return`, `Tab`, `Escape`, `BackSpace`, `Up`, and `Down`.
 

@@ -15,6 +15,17 @@ from gi.repository import Gio,GLib
 
 LETTER_KEYS = dict(zip('qwertyuiopasdfghjklzxcvbnm',
                       [16,17,18,19,20,21,22,23,24,25,30,31,32,33,34,35,36,37,38,44,45,46,47,48,49,50]))
+TEXT_KEYS = {char: (code, False) for char, code in LETTER_KEYS.items()}
+TEXT_KEYS.update({char.upper(): (code, True) for char, code in LETTER_KEYS.items()})
+for code, unshifted, shifted in (
+    *zip(range(2, 12), '1234567890', '!@#$%^&*()'),
+    (12, '-', '_'), (13, '=', '+'), (26, '[', '{'), (27, ']', '}'),
+    (39, ';', ':'), (40, "'", '"'), (41, '`', '~'), (43, '\\', '|'),
+    (51, ',', '<'), (52, '.', '>'), (53, '/', '?'),
+):
+    TEXT_KEYS[unshifted] = (code, False)
+    TEXT_KEYS[shifted] = (code, True)
+TEXT_KEYS[' '] = (57, False)
 KEYS = dict(LETTER_KEYS, Return=28, Tab=15, Escape=1, BackSpace=14,
             Down=108, Up=103, Left=105, Right=106, Home=102, End=107,
             PageUp=104, PageDown=109, Delete=111, space=57)
@@ -243,13 +254,12 @@ print("LAD_NONCE:"+JSON.stringify({windows:out,stacking:stacking,screens:screens
                 text=op.get('text')
                 require(isinstance(text,str) and text.isascii() and text.isprintable() and len(text)<=4096,
                         'unsupported_text','Use semantic input for Unicode')
-                mapping=dict(LETTER_KEYS)
-                mapping.update(dict(zip('1234567890',[2,3,4,5,6,7,8,9,10,11])));mapping[' ']=57
-                require(all(c.lower() in mapping for c in text),'unsupported_text','Current keymap accepts letters digits and spaces')
+                require(all(c in TEXT_KEYS for c in text),'unsupported_text','Current keymap accepts printable US ASCII')
                 for char in text:
-                    if char.isupper():inputs.key(42,True)
-                    inputs.key(mapping[char.lower()],True);inputs.key(mapping[char.lower()],False)
-                    if char.isupper():inputs.key(42,False)
+                    code,shift=TEXT_KEYS[char]
+                    if shift:inputs.key(42,True)
+                    inputs.key(code,True);inputs.key(code,False)
+                    if shift:inputs.key(42,False)
             inputs.pump(.1)
         finally:inputs.close()
         return {'delivered':True,'verified_effect':False,'host_input_isolated':True,

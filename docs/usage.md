@@ -69,7 +69,8 @@ Example prompt:
 X11 coordinates are window physical pixels; browser coordinates are CSS pixels;
 private Wayland coordinates are window logical pixels. Its PNG scale converts
 logical coordinates to screenshot pixels. GTK semantic text and CDP support
-Unicode. Native Wayland key text currently supports letters, digits and spaces.
+Unicode. Native Wayland key text supports printable US ASCII, including punctuation.
+Tabs, newlines, other control characters and Unicode need semantic input instead.
 Covered coordinate targets reject input; GTK semantic actions can remain usable.
 
 Private KWin `click` and `key` actions hold the button or key for 150 ms so
