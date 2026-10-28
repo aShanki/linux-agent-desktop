@@ -130,6 +130,12 @@ class Session:
             setup=self.spawn(['kscreen-doctor',*settings],stdout=subprocess.PIPE)
             setup.communicate(timeout=8)
             require(setup.returncode==0,'startup_failed','Cannot configure private output scaling')
+            # Short-lived adapters must not remove the last input device while Xwayland holds a pointer lock.
+            self.input_keeper=self.spawn([sys.executable,'-m','lad.kwin_input'],stdout=subprocess.PIPE)
+            try:
+                require(self.read_line(self.input_keeper.stdout)=='ready','startup_failed','Private input connection failed to start')
+            finally:
+                self.input_keeper.stdout.close()
             return
         xvfb = shutil.which('Xvfb') or str(ROOT / '.local/xvfb/usr/bin/Xvfb')
         require(Path(xvfb).is_file(), 'missing_dependency', 'Run scripts/bootstrap.sh to provision Xvfb')
@@ -168,6 +174,8 @@ class Session:
 
     def run(self, operation, timeout=8):
         require(not self.cancelled and self.app.poll() is None, 'target_gone', 'Task target is no longer running')
+        if self.kind.startswith('wayland-'):
+            require(self.input_keeper.poll() is None,'backend_failed','Private input connection was lost; close and reopen the task')
         if self.kind == 'browser':
             return self.run_browser(operation, timeout)
         p = self.spawn([sys.executable, '-m', 'lad.worker'], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
