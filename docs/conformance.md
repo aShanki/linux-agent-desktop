@@ -95,9 +95,9 @@ per backend. Median times were 112.32 ms (Qt/X11), 122.74 ms (GTK/X11), 33.45 ms
 (CDP), 87.14 ms (Qt/Wayland), 88.20 ms (GTK/Wayland) and 83.16 ms (custom canvas).
 These are local smoke benchmarks, not production latency guarantees.
 
-Native Wayland keyboard text currently supports letters, digits and spaces on
-the private compositor's default keymap. GTK semantic input and CDP cover
-Unicode. General layouts, arbitrary punctuation and IMEs need further work.
+Native Wayland keyboard text supports printable US ASCII on the private
+compositor's default keymap. GTK semantic input and CDP cover Unicode.
+Other keyboard layouts, control characters and IMEs remain unsupported here.
 
 ## Installed applications, separate smoke checks
 
